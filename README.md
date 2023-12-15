@@ -39,7 +39,32 @@ buat app.py lalu run
 
 
 ### Hasil Pengujian Setiap Endpoint
+GET ORDERS
+![get](images/getorders.jpg)
+
+GET ORDERS
+![orderbyid](images/ordersbyid.jpg)
+
+POST ORDERS
+![post](images/post.jpg)
+
+PUT ORDERS
+![put](images/put.jpg)
+
+DELETE ORDERS
+![delete](images/delete.jpg)
+
+
 
 ### Hasil Pengujian dan Analisis Loadtesting Locust
 
+![testing](images/testing.jpg)
+
 ### Kesimpulan dan Saran
+
+Kesimpulan:
+Final project sangat sulit
+
+Saran:
+Sebaiknya ambil jarkom dulu
+
