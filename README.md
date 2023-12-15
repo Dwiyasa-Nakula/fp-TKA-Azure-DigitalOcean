@@ -17,10 +17,11 @@ Pada suatu saat teman anda ingin mengajak anda memulai bisnis di bidang digital 
 Kemudian anda diminta untuk mendesain arsitektur cloud yang sesuai dengan kebutuhan aplikasi tersebut. Apabila dana maksimal yang diberikan adalah 1 juta rupiah per bulan (65 US$) konfigurasi cloud terbaik seperti apa yang bisa dibuat?
 
 ### Rancangan Arsitektur dan Tabel Harga Spesifikasi VM
-Berikut adalah rancangan arsitektur yang telah kami buat untuk final project kami arsitektur
-![Rancangan Arsitektur VM](images/Rancangan_VM.png)
-Kami memilih untuk menggunakan Digital Ocean sebagai lingkungan cloud yang akan kami gunakan. Berikut adalah tabel harga spesifikasi VM yang kami buat
-![Harga Config VM](images/Harga_VM.png)
+Berikut adalah rancangan arsitektur dan tabel harga spesifikasi VM yang telah kami buat untuk final project ini.
+Arsitektur kami memilih untuk menggunakan Digital Ocean sebagai lingkungan cloud.
+
+![Rancangan Arsitektur FIX](images/rancangan_fix.PNG)
+
 
 ### Langkah Implementasi dan Konfigurasi Teknologi
 Buat database dan copy connection string
@@ -63,8 +64,20 @@ DELETE ORDERS
 ### Kesimpulan dan Saran
 
 Kesimpulan:
-Final project sangat sulit
+Kita perlu merancang arsitektur cloud untuk aplikasi berbasis API dengan batasan anggaran 1 juta rupiah per bulan, menggunakan Digital Ocean sebagai penyedia layanan.
 
 Saran:
-Sebaiknya ambil jarkom dulu
+Berdasarkan Final Project yang telah kami lakukan, kami menyarankan hal-hal sebagai berikut:
+1. Pilih konfigurasi VM yang sesuai.
+2. Gunakan auto-scaling untuk menyesuaikan beban kerja.
+3. Terapkan kebijakan keamanan yang ketat.
+4. Gunakan firewall dan enkripsi data.
+5. Rutin backup data dan pastikan pemulihan efisien.
+6. Aktifkan monitoring dan analisis kinerja.
+7. Pilih lokasi server strategis.
+8. Pantau penggunaan sumber daya.
+9. Gunakan estimasi biaya dan monitoring.
+10. Desain agar dapat berkembang.
+11. Manfaatkan dukungan teknis penyedia cloud.
 
+Berdasarkan itu semua, kami juga sangat menyarankan agar dapat meningkatkan spesifikasi VM menjadi lebih baik. Kita juga harus menerapkan konsep "value for money" dimana Budget juga harus ditingkatkan karena semakin besar anggaran maka fasilitas yang didapat juga semakin banyak.
