@@ -20,7 +20,7 @@ Kemudian anda diminta untuk mendesain arsitektur cloud yang sesuai dengan kebutu
 Berikut adalah rancangan arsitektur dan tabel harga spesifikasi VM yang telah kami buat untuk final project ini.
 Arsitektur kami memilih untuk menggunakan Digital Ocean sebagai lingkungan cloud.
 
-![Rancangan Arsitektur FIX](images/rancangan_fix.PNG)
+![Rancangan Arsitektur FIX](images/rancangan_fix.png)
 
 
 ### Langkah Implementasi dan Konfigurasi Teknologi
