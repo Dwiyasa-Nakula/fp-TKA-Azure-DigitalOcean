@@ -35,13 +35,135 @@ Buat Droplet VM dan setup
 ![Create Worker](images/Create_worker.png)
 ![Install Dependency](images/install_dependency.png)
 
-buat app.py lalu run
-![run app.py](images/run_apppy.png)
+Hal yang perlu diinstall adalah
+- `sudo apt update`
+- `sudo apt install python3`
+- `sudo apt install python3-pip -y`
 
+- `pip install flask`
+- `pip install gunicorn`
+- `pip install flask_pymongo`
+- `pip install gevent`
+
+- `nano app.py`
+```
+from flask import Flask, jsonify, request
+from flask_pymongo import PyMongo
+from bson import ObjectId
+
+app = Flask(__name__)
+
+# Configuration for MongoDB
+app.config['MONGO_URI'] = '[insert MongoDB string connection]'
+mongo = PyMongo(app)
+
+# Routes
+
+# Get all orders
+@app.route('/orders', methods=['GET'])
+def get_orders():
+    orders = mongo.db.orders.find()
+    orders_list = []
+    for order in orders:
+        order['_id'] = str(order['_id'])  # Convert ObjectId to string
+        orders_list.append(order)
+    return jsonify({"orders": orders_list})
+
+# Get a specific order by ID
+@app.route('/orders/<string:order_id>', methods=['GET'])
+def get_order(order_id):
+    order = mongo.db.orders.find_one({'_id': ObjectId(order_id)})
+    if order:
+        order['_id'] = str(order['_id'])  # Convert ObjectId to string
+        return jsonify({"order": order})
+    else:
+        return jsonify({"message": "Order not found"}), 404
+
+# Create a new order
+@app.route('/orders', methods=['POST'])
+def create_order():
+    data = request.json
+    new_order = {
+        'product': data['product'],
+        'quantity': data['quantity'],
+        'customer_name': data['customer_name'],
+        'customer_address': data['customer_address']
+    }
+    result = mongo.db.orders.insert_one(new_order)
+    new_order['_id'] = str(result.inserted_id)  # Convert ObjectId to string
+    return jsonify({"message": "Order created successfully", "order": new_order})
+
+# Update an order by ID
+@app.route('/orders/<string:order_id>', methods=['PUT'])
+def update_order(order_id):
+    data = request.json
+    updated_order = {
+        'product': data.get('product'),
+        'quantity': data.get('quantity'),
+        'customer_name': data.get('customer_name'),
+        'customer_address': data.get('customer_address')
+    }
+    mongo.db.orders.update_one({'_id': ObjectId(order_id)}, {'$set': updated_order})
+    updated_order['_id'] = order_id
+    return jsonify({"message": "Order updated successfully", "order": updated_order})
+
+# Delete an order by ID
+@app.route('/orders/<string:order_id>', methods=['DELETE'])
+def delete_order(order_id):
+    result = mongo.db.orders.delete_one({'_id': ObjectId(order_id)})
+    if result.deleted_count > 0:
+        return jsonify({"message": "Order deleted successfully"})
+    else:
+        return jsonify({"message": "Order not found"}), 404
+
+if __name__ == '__main__':
+    app.run(debug=True)
+``` 
+- `sudo apt install nginx`
+- `sudo nano '/etc/nginx/sites-available/default'`
+```
+server {
+    listen 80;
+    server_name your_domain_or_ip;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;  # Assuming Gunicorn is running on port 8000
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+```
+- `sudo nginx -t`
+- `sudo service nginx restart`
+- `gunicorn --bind 0.0.0.0:8000 -w 8 -k gevent app:app`
+atau `gunicorn -D --bind 0.0.0.0:8000 -w 8 -k gevent app:app` untuk jalankan secara daemon
+
+Buat Loadbalancer dengan droplet
+- `sudo apt update`
+- `sudo apt install nginx`
+- `sudo nano '/etc/nginx/sites-available/default'`
+```
+upstream worker {
+    server [worker1 IP];
+    server [worker2 IP];
+}
+
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://worker;
+    }
+}
+```
+- `sudo nginx -t`
+- `sudo service nginx restart`
+![loadbalancer](images/loadbalancer.jpg)
 
 ### Hasil Pengujian Setiap Endpoint
 GET ORDERS
-![get](images/getorders.jpg)
+![get](images/get.jpg)
 
 GET ORDERS
 ![orderbyid](images/ordersbyid.jpg)
